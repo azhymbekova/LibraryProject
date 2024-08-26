@@ -1,8 +1,9 @@
-﻿using System;
-
-public class Book
+﻿public class Book
 {
-	public Book()
-	{
-	}
+    public int BookId { get; set; }
+    public string BookName { get; set; }
+    public string BookDescription { get; set; }
+    public DateTime BookDateTime { get; set; }
+    public string AmountPages { get; set; }
+    public int Rating { get; set; }
 }
