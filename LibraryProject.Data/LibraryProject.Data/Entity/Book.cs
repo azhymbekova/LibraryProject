@@ -7,5 +7,4 @@
     public string AmountPages { get; set; }
     public int Rating { get; set; }
     public Library Library { get; set; }
-    public ICollection<BorrowItem> BorrowItems { get; set; }
 }
