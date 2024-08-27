@@ -4,4 +4,5 @@
     public long UserId { get; set; }
     public List<BorrowBook> BorrowBooks { get; set; }
     public DateTime CreateDate { get; set; }
+
 }

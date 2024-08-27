@@ -1,7 +1,4 @@
-﻿using LibraryProject.Data.Entity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+﻿
 
 public class LibraryContext : IdentityDbContext<ApplicationUser>
 {
@@ -17,13 +14,5 @@ public class LibraryContext : IdentityDbContext<ApplicationUser>
     public DbSet<Library> Libraries { get; set; }
 
 
-    //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    //{
-    //    IConfigurationRoot configuration = new ConfigurationBuilder()
-    //        .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-    //        .AddJsonFile("appsettings.json")
-    //        .Build();
-
-    //    optionsBuilder.UseNpgsql(configuration.GetConnectionString("LibraryDatabase"));
-    //}
+    
 }
