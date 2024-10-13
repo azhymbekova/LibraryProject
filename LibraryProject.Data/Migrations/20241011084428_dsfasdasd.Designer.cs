@@ -3,6 +3,7 @@ using System;
 using LibraryProject.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace LibraryProject.Data.Migrations
 {
     [DbContext(typeof(LibraryContext))]
-    partial class LibraryContextModelSnapshot : ModelSnapshot
+    [Migration("20241011084428_dsfasdasd")]
+    partial class dsfasdasd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,17 +27,17 @@ namespace LibraryProject.Data.Migrations
 
             modelBuilder.Entity("Borrow", b =>
                 {
-                    b.Property<long>("BorrowId")
+                    b.Property<int>("BorrowId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("BorrowId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("BorrowId"));
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
 
                     b.HasKey("BorrowId");
 
@@ -45,15 +48,21 @@ namespace LibraryProject.Data.Migrations
 
             modelBuilder.Entity("Library", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Address")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<int>("BookId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("LibraryId")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -130,17 +139,17 @@ namespace LibraryProject.Data.Migrations
 
             modelBuilder.Entity("LibraryProject.Data.Entity.Author", b =>
                 {
-                    b.Property<long>("AuthorId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("AuthorId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("FullNameofAuthor")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("AuthorId");
+                    b.HasKey("Id");
 
                     b.ToTable("Authors");
                 });
@@ -167,8 +176,8 @@ namespace LibraryProject.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<long?>("LibraryId")
-                        .HasColumnType("bigint");
+                    b.Property<int?>("LibraryId")
+                        .HasColumnType("integer");
 
                     b.Property<int>("Rating")
                         .HasColumnType("integer");
@@ -185,8 +194,8 @@ namespace LibraryProject.Data.Migrations
                     b.Property<long>("BookId")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("AuthorId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("AuthorId")
+                        .HasColumnType("integer");
 
                     b.HasKey("BookId", "AuthorId");
 
@@ -197,11 +206,11 @@ namespace LibraryProject.Data.Migrations
 
             modelBuilder.Entity("LibraryProject.Data.Entity.BorrowBook", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("Amount")
                         .HasColumnType("integer");
@@ -209,17 +218,17 @@ namespace LibraryProject.Data.Migrations
                     b.Property<long>("BookId")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("BorrowId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("BorrowId")
+                        .HasColumnType("integer");
 
-                    b.Property<long?>("BorrowId1")
-                        .HasColumnType("bigint");
+                    b.Property<int?>("BorrowId1")
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("DueDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -369,18 +378,18 @@ namespace LibraryProject.Data.Migrations
 
             modelBuilder.Entity("User", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<long>("LibraryId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("LibraryId")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Password")
                         .IsRequired()

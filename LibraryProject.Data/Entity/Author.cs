@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace LibraryProject.Data.Entity;
 
-internal class Author
+public class Author
 {
-    public int Id { get; set; }
+    public long AuthorId { get; set; }
     public string FullNameofAuthor { get; set; }
-    public List<BookAuthor> Authors_Book { get; set; }
+    public ICollection<BookAuthor> BookAuthors { get; set; } = new List<BookAuthor>();
 }

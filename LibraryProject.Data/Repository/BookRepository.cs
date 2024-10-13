@@ -1,4 +1,5 @@
 ﻿using LibraryProject.Data.Entity;
+
 namespace LibraryProject.Data.Repository;
 public class BookRepository : Repository<Book>
 {
