@@ -27,7 +27,7 @@ namespace WebApplication1.Controllers
         public IActionResult GetBooks()
         {
             var books = _service.GetBooks();
-            if(books.Count == 0)
+            if(books.Count() == 0)
                 return NotFound();
             return Ok(books);
         }
@@ -56,6 +56,15 @@ namespace WebApplication1.Controllers
             {
                 return NotFound(ex.Message); 
             }
+        }
+        [HttpGet("{id}")]
+        public IActionResult GetBook(int id)
+        {
+            var book = _service.GetBookById(id); 
+
+            if (book == null) return NotFound("Книга не найдена.");
+
+            return Ok(book);
         }
 
     }

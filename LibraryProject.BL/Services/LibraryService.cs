@@ -1,104 +1,100 @@
 ﻿using LibraryProject.BL.Dtos;
 using LibraryProject.Data.Repository;
 using LibraryProject.Data.Entity;
+using LibraryProject.Data;
+using LibraryProject.BL.Interfaces;
 
-namespace LibraryProject.BL.Services;
-
-public class LibraryService
+namespace LibraryProject.BL.Services
 {
-    private readonly LibraryRepository _libraryRepository;
-    private readonly BookRepository _bookRepository;
-
-    public LibraryService(LibraryRepository libraryRepository, BookRepository bookRepository)
+    public class LibraryService
     {
-        _libraryRepository = libraryRepository;
-        _bookRepository = bookRepository;
-    }
+        private readonly ILibraryRepository _libraryRepository; // Используйте интерфейсы
+        private readonly IBookRepository _bookRepository; // Используйте интерфейсы
 
-    public Library AddLibrary(LibraryDto libraryDto)
-    {
-        var newLibrary = new Library
+        public LibraryService(ILibraryRepository libraryRepository, IBookRepository bookRepository)
         {
-            Name = libraryDto.Name,
-            Address = libraryDto.Address,
-            Books = new List<Book>()
-        };
+            _libraryRepository = libraryRepository;
+            _bookRepository = bookRepository;
+        }
 
-        if (libraryDto.BookIds != null && libraryDto.BookIds.Any())
+        public Library AddLibrary(LibraryDto libraryDto)
         {
-            foreach (var bookId in libraryDto.BookIds)
+            var newLibrary = new Library
             {
-                var book = _bookRepository.GetById(bookId);
-                if (book != null)
+                Name = libraryDto.Name,
+                Address = libraryDto.Address,
+                Books = new List<Book>()
+            };
+
+            if (libraryDto.BookIds != null && libraryDto.BookIds.Any())
+            {
+                foreach (var bookId in libraryDto.BookIds)
                 {
-                    newLibrary.Books.Add(book);
+                    var book = _bookRepository.GetBookById(bookId);
+                    if (book != null)
+                    {
+                        newLibrary.Books.Add(book);
+                    }
                 }
             }
+
+            return _libraryRepository.Add(newLibrary); // Сохранение изменений внутри Add
         }
 
-        var addedLibrary = _libraryRepository.Add(newLibrary);
-        _libraryRepository.SaveChanges();
-
-        return addedLibrary;
-    }
-
-    public List<Library> GetLibraries()
-    {
-        return _libraryRepository.GetAll();
-    }
-
-    public Library GetLibraryById(int id)
-    {
-        return _libraryRepository.GetById(id);
-    }
-
-    public Library UpdateLibrary(int id, LibraryDto libraryDto)
-    {
-        var existingLibrary = _libraryRepository.GetById(id);
-        if (existingLibrary == null)
+        public List<Library> GetLibraries()
         {
-            throw new Exception("Библиотека не найдена.");
+            return _libraryRepository.GetAll();
         }
 
-        existingLibrary.Name = libraryDto.Name;
-        existingLibrary.Address = libraryDto.Address;
-
-        _libraryRepository.Update(existingLibrary);
-        _libraryRepository.SaveChanges();
-
-        return existingLibrary;
-    }
-
-    public void DeleteLibrary(int id)
-    {
-        var libraryToDelete = _libraryRepository.GetById(id);
-        if (libraryToDelete == null)
+        public Library GetLibraryById(int id)
         {
-            throw new Exception("Библиотека не найдена.");
+            return _libraryRepository.GetById(id);
         }
 
-        _libraryRepository.Delete(libraryToDelete);
-        _libraryRepository.SaveChanges();
-    }
-
-    public void AddBooksToLibrary(int libraryId, List<int> bookIds)
-    {
-        var library = _libraryRepository.GetById(libraryId);
-        if (library == null)
+        public Library UpdateLibrary(int id, LibraryDto libraryDto)
         {
-            throw new Exception("Библиотека не найдена.");
-        }
-
-        foreach (var bookId in bookIds)
-        {
-            var book = _bookRepository.GetById(bookId);
-            if (book != null)
+            var existingLibrary = _libraryRepository.GetById(id);
+            if (existingLibrary == null)
             {
-                library.Books.Add(book);
+                throw new Exception("Библиотека не найдена.");
             }
+
+            existingLibrary.Name = libraryDto.Name;
+            existingLibrary.Address = libraryDto.Address;
+
+            _libraryRepository.Update(existingLibrary); // Обновление происходит здесь, сохранение изменений в репозитории
+            return existingLibrary;
         }
 
-        _libraryRepository.Update(library);
-        _libraryRepository.SaveChanges();
+        public void DeleteLibrary(int id)
+        {
+            var libraryToDelete = _libraryRepository.GetById(id);
+            if (libraryToDelete == null)
+            {
+                throw new Exception("Библиотека не найдена.");
+            }
+
+            _libraryRepository.Delete(libraryToDelete);
+        }
+
+        public void AddBooksToLibrary(int libraryId, List<int> bookIds)
+        {
+            var library = _libraryRepository.GetById(libraryId);
+            if (library == null)
+            {
+                throw new Exception("Библиотека не найдена.");
+            }
+
+            foreach (var bookId in bookIds)
+            {
+                var book = _bookRepository.GetBookById(bookId);
+                if (book != null)
+                {
+                    library.Books.Add(book);
+                }
+            }
+
+            _libraryRepository.Update(library);
+        }
     }
 }
